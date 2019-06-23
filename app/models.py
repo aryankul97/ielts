@@ -16,8 +16,11 @@ class EssayData(models.Model):
 	wordcount=models.CharField(max_length=50)
 	spellcheck=models.CharField(max_length=50)
 	grammercheck=models.CharField(max_length=50)
+	articlecheck=models.CharField(max_length=50)
 	error=models.CharField(max_length=50)
 	grade=models.CharField(max_length=50)
+	totaltime=models.CharField(max_length=50)
+	timetaken=models.CharField(max_length=50)
 	class Meta:
 		db_table="EssayData"
 class HtmlData(models.Model):

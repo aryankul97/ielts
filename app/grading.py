@@ -83,7 +83,7 @@ def Main_fun():
 
     #print(gnb.predict([[499,30,30,65,43,16,47,134,3,16,59,102,65,0]]))
     final_result=gnb.predict([[499,30,30,65,43,16,47,134,3,16,59,102,65,0]])
-
+    print(final_result)
     # In[ ]:
     #print(final_result[0])
     return final_result[0]

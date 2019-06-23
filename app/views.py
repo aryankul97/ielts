@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from app.models import *
-#from app.spellcheck import *
-#from app.grammer import *
 from app.trycheck import *
 from django.http import HttpResponse
 import csv
+import time
 from app.grading import *
 
 def start(request):
 	name=request.session['name']
+	t=time.time()
+	request.session['starttime'] = int(t)
 	return render(request, 'index.html',{'name':name})
 def register(request):
 	
@@ -57,7 +58,7 @@ def checkscorepage(request):
 	for elt in obj:
 		if elt.userid==email:
 			d=1
-			data=b1+elt.topic+b2+elt.wordcount+b3+elt.spellcheck+b4+elt.grammercheck+b5+elt.error+b6
+			data=b1+elt.topic+b2+elt.grade+b2+elt.wordcount+b3+elt.spellcheck+b4+elt.grammercheck+b5+elt.articlecheck+b5+elt.error+b5+elt.timetaken+b5+elt.totaltime+b6
 			table=table+data
 	if d==1:
 		return render(request, "CheckScore.html" , {'data':table})
@@ -66,6 +67,11 @@ def checkscorepage(request):
 @csrf_exempt
 def checkscore(request):
 	if request.method=="POST":
+		#obj=EssayData.objects.all().delete()
+		#Calculating Time Taken
+		starttime = request.session['starttime']
+		currenttime=int(time.time())
+		timetaken = (currenttime-starttime)
 		topic = request.POST.get('Topic')
 		data = request.POST.get('text')
 		print(data[3:len(data)-4])
@@ -76,7 +82,8 @@ def checkscore(request):
 		grammer = Capitalize(str(data[3:len(data)-4]))
 		art=check_articles(str(data))
 		Graded_result=Main_fun()
-		obj=EssayData(userid=request.session['email'],topic=topic,essay=data,wordcount=length,spellcheck=spell,grammercheck=grammer,error=art,grade=Graded_result)
+		totalerror=int(spell)+int(grammer)+int(art)
+		obj=EssayData(userid=request.session['email'],topic=topic,essay=data,wordcount=length,spellcheck=spell,grammercheck=grammer,articlecheck=art,error=totalerror,grade=Graded_result,totaltime=60,timetaken=timetaken)
 		mail_id=request.session['email']
 		obj.save()
 		data_scores=[mail_id,topic,data,length,spell,grammer,art,Graded_result]
@@ -123,8 +130,7 @@ def checkscore(request):
 		for elt in obj:
 			if elt.userid==request.session['email']:
 				d=1
-				elt.topic=str(Graded_result)
-				data=b1+elt.topic+b2+elt.wordcount+b3+elt.spellcheck+b4+elt.grammercheck+b5+elt.error+b6
+				data=b1+elt.topic+b2+elt.grade+b2+elt.wordcount+b3+elt.spellcheck+b4+elt.grammercheck+b5+elt.articlecheck+b5+elt.error+b5+elt.timetaken+b5+elt.totaltime+b6
 				table=table+data
 		return render(request, "CheckScore.html" , {'data':table})
 def analyticspage(request):
