@@ -3,7 +3,7 @@
 
 <html lang="en">
   <head>
-    <title>IELTS</title>
+    <title>IELTS-Cohession</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% load static %}
@@ -52,7 +52,7 @@
             <ul class="social-media">
               <li><a href="https://www.facebook.com/analyticsdomain/" class=""><span class="icon-facebook"></span></a></li>
               <li><a href="https://twitter.com/AnalyticsDomain" class=""><span class="icon-twitter"></span></a></li>
-              <li><a href="https://www.instagram.com/analytics_domain/" class=""><span class="icon-instagram"></span></a></li>
+              <li><a href="https://www.instagram.com/analytics_domain/?hl=en" class=""><span class="icon-instagram"></span></a></li>
               <li><a href="https://www.linkedin.com/company/analytics-domain/" class=""><span class="icon-linkedin"></span></a></li>
             </ul>
           </div>
@@ -83,6 +83,34 @@
                 <li><a href="/home/analytics/" class="nav-link">Analytics</a></li>
                 <li><a href="/home/rules/" class="nav-link">Rules</a></li>
                 <li><a href="/home/" class="nav-link">Logout</a></li>
+                <li>
+                    <div class="con">
+                    <div class="timer">
+                    <div class="cell">
+                        <div class="numbers tenminute movesix">0 1 2 3 4</div>
+                    </div>
+                    <div class="cell">
+                        <div class="numbers minute moveten">0 1 2 3 4 5 6 7 8 9</div>
+                    </div>
+                    <div class="cell divider"><div class="numbers">:</div></div>
+                    <div class="cell">
+                        <div class="numbers tensecond movesix">0 1 2 3 4 5 6</div>
+                    </div>
+                    <div class="cell">
+                        <div class="numbers second moveten">0 1 2 3 4 5 6 7 8 9</div>
+                    </div>
+                    <div class="cell divider"><div class="numbers">:</div></div>
+                    <div class="cell">
+                        <div class="numbers milisecond moveten">0 1 2 3 4 5 6 7 8 9</div>
+                    </div>
+                    <div class="cell">
+                        <div class="numbers tenmilisecond moveten">0 1 2 3 4 5 6 7 8 9</div>
+                    </div>
+                    <div class="cell">
+                        <div class="numbers hundredmilisecond moveten">0 1 2 3 4 5 6 7 8 9</div>
+                    </div>
+                    </div>
+                </li>
               </ul>
             </nav>
           </div>
@@ -106,13 +134,9 @@
             <div class="row mb-4">
               <div class="col-md-7">
                 <h1>Hi, {{ name|safe }}</h1>
-                <h2></h2>
                 
                 <div>
-                  <a href="" onclick="window.open('/home/register/login/check/start/','IELTS','fullscreen=yes, scrollbars=yes'); return false" class="btn btn-white btn-outline-white py-3 px-5 rounded-0 mb-lg-0 mb-2 d-block d-sm-inline-block">Start Your Test Here...!!!</a>
-                </div>
-                <div>
-                  <a href="" onclick="window.open('/home/register/login/check/cohession/','IELTS','fullscreen=yes, scrollbars=yes'); return false" class="btn btn-white btn-outline-white py-3 px-5 rounded-0 mb-lg-0 mb-2 d-block d-sm-inline-block">Check Cohession</a>
+                  <a href="#contact-section" class="btn btn-white btn-outline-white py-3 px-5 rounded-0 mb-lg-0 mb-2 d-block d-sm-inline-block">CHECK NOW</a>
                 </div>
               </div>
             </div>
@@ -120,7 +144,101 @@
         </div>
       </div>
     </div>
-<footer class="page-footer font-small blue">
+    <head><script type="text/javascript"
+    src="https://www.languagetool.org/js/jquery-1.7.0.min.js"></script>
+<script type="text/javascript"
+    src="https://www.languagetool.org/online-check/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript"
+    src="https://www.languagetool.org/online-check/tiny_mce/plugins/atd-tinymce/editor_plugin2.js"></script>
+ 
+<script language="javascript" type="text/javascript">  
+  tinyMCE.init({
+     mode : "textareas",
+     plugins : "AtD,paste",
+     paste_text_sticky : true,
+     setup : function(ed) {
+         ed.onInit.add(function(ed) {
+             ed.pasteAsPlainText = true;
+         });
+     },  
+     /* translations: */
+     languagetool_i18n_no_errors : {
+         // "No errors were found.":
+         "de-DE": "Keine Fehler gefunden."
+     },
+     languagetool_i18n_explain : {
+         // "Explain..." - shown if there is an URL with a detailed description:
+         "de-DE": "Mehr Informationen..."
+     },
+     languagetool_i18n_ignore_once : {
+         // "Ignore this error":
+         "de-DE": "Hier ignorieren"
+     },
+     languagetool_i18n_ignore_all : {
+         // "Ignore this kind of error":
+         "de-DE": "Fehler dieses Typs ignorieren"
+     },
+     languagetool_i18n_rule_implementation : {
+         // "Rule implementation":
+         "de-DE": "Implementierung der Regel"
+     },
+ 
+     languagetool_i18n_current_lang :
+         function() { return document.checkform.lang.value; },
+     /* The URL of your LanguageTool server.
+        If you use your own server here and it's not running on the same domain 
+        as the text form, make sure the server gets started with '--allow-origin ...' 
+        and use 'https://your-server/v2/check' as URL: */
+     languagetool_rpc_url                 : "https://languagetool.org/api/v2/check",
+     /* edit this file to customize how LanguageTool shows errors: */
+     languagetool_css_url :
+         "https://www.languagetool.org/online-check/" +
+         "tiny_mce/plugins/atd-tinymce/css/content.css",
+     /* this stuff is a matter of preference: */
+     theme                              : "advanced",
+     theme_advanced_buttons1            : "",
+     theme_advanced_buttons2            : "",
+     theme_advanced_buttons3            : "",
+     theme_advanced_toolbar_location    : "none",
+     theme_advanced_toolbar_align       : "left",
+     theme_advanced_statusbar_location  : "bottom",
+     theme_advanced_path                : false,
+     theme_advanced_resizing            : true,
+     theme_advanced_resizing_use_cookie : false,
+     gecko_spellcheck                   : false
+  });
+ 
+  function doit() {
+     var langCode = document.checkform.lang.value;
+     tinyMCE.activeEditor.execCommand("mceWritingImprovementTool", langCode);
+  }</script></head>
+
+   
+
+
+       <div class="site-section bg-light" id="contact-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12 text-center">
+            <h2 class="section-title mb-3">Check Cohession Here</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form action="/home/register/login/check/cohession/check/" method="POST">
+      <center>
+            <input name="Topic" cols="150" rows="1" placeholder="Name of the topic...">
+             <textarea name="text" cols="30" rows="7" class="form-control rounded-0">Write your essay here...</textarea>
+        </center>
+        <div>
+            <br>
+            <input type="submit" name="_action_checkText"  class="btn btn-black rounded-0 py-2 px-2"
+                value="Check Text"  style="display: block; margin: 0 auto;">
+            <div name='spell' id="feedbackErrorMessage" style="color: red;"></div>
+        </div>
+       
+      </form>
+      <footer class="page-footer font-small blue">
 
   <!-- Copyright -->
   <div class="footer-copyright text-center py-3">© 2019 Copyright:
@@ -129,7 +247,6 @@
   <!-- Copyright -->
 
 </footer>
-
 
   <script src="{% static "jss/jquery-3.3.1.min.js" %}"></script>
   <script src="{% static "jss/jquery-migrate-3.0.1.min.js" %}"></script>
@@ -147,6 +264,15 @@
 
   
   <script src="{% static "jss/main.js" %}"></script>
+  <script type="text/javascript">
+ function closeWindow() {
+    setTimeout(function() {
+    window.close();
+    }, 60000);
+    }
+
+    window.onload = closeWindow();
+    </script>
     
   </body>
 </html>

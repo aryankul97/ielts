@@ -29,6 +29,8 @@ urlpatterns = [
     path('home/register/login/', login),
     path('home/register/login/check/', checklogin),
     path('home/register/login/check/start/', start),
+    path('home/register/login/check/cohession/', opencohession),
+    path('home/register/login/check/cohession/check/', checkcohession),
     path('home/register/saveuser/', saveuser),
     path('home/register/saveuser/acceptpolicy/', acceptpolicy),
 ]

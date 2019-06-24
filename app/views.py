@@ -6,6 +6,7 @@ from django.http import HttpResponse
 import csv
 import time
 from app.grading import *
+from app.perplexity import *
 
 def start(request):
 	name=request.session['name']
@@ -64,6 +65,43 @@ def checkscorepage(request):
 		return render(request, "CheckScore.html" , {'data':table})
 	else:
 		return render(request, "CheckScore.html" , {})
+def opencohession(request):
+	name=request.session['name']
+	return render(request,'Cohession.html',{'name':name})
+@csrf_exempt
+def checkcohession(request):
+	if request.method=="POST":
+		topic=request.POST.get('Topic')
+		text=request.POST.get('text')
+		data=checkperplexity(text)
+		vocab=data['vocabulary']
+		sentence=data['sentence']
+		b1=''
+		b2=''
+		b3=''
+		ob=HtmlData.objects.all()
+		for elt in ob:
+			if elt.filename=='t1':
+				b1=elt.code
+				break
+		for elt in ob:
+			if elt.filename=='t2':
+				b2=elt.code
+				break
+		for elt in ob:
+			if elt.filename=='t6':
+				b3=elt.code
+				break
+		table=''
+		for x in vocab:
+			data=b1+x+b2+str(vocab[x])+b3
+			table=table+data
+		context = {
+					'data':table,
+					'sentence':'Number of Sentences '+str(sentence),
+					'topic':topic
+		}
+		return render(request, 'CheckCohession.html',context)
 @csrf_exempt
 def checkscore(request):
 	if request.method=="POST":
