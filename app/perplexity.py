@@ -1,5 +1,5 @@
 import math
-import app.util
+import util
 import nltk
 from nltk import trigrams
 from nltk import bigrams
@@ -9,7 +9,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 # class that implements functionality for calculating perplexity of essay with Laplace smoothing
 class Perplexity:
-                
+        
         def __init__(self):
                 self.num_words = None
                 self.counts = None
@@ -67,7 +67,7 @@ class Perplexity:
 
                 return math.pow(2.0, -log_prob / len(word_list))
 
-def checkperplexity(text):
+def RunThis(text):
         sentences= nltk.sent_tokenize(text)
         train_essays=[]
         train_es=""
@@ -106,13 +106,26 @@ def checkperplexity(text):
         counts = perp.create_counts(train_essays)
 
         #print (perp.vectorizer.vocabulary_)
-
-        """for i in range (0,count):
-                #print ('The deviation of paragraph number : ',i,' is :',perp.perplexity(test_essays[i]))
+        result={}
+        list_of_dev=[]
+        for i in range (0,count):
+                deviation_rate=perp.perplexity(test_essays[i])
+                #print ('The deviation of paragraph number : ',i,' is :',deviation_rate)
+                if len(test_essays[i]) !=0:
+                        result[test_essays[i]]=[]
+                        result[test_essays[i]].append(deviation_rate)
+                        list_of_dev.append(deviation_rate)
                 #print (perp.vectorizer.vocabulary_)
                 #print (perp.counts)
-                print (perp.num_words)
-                #print (perp.counts[perp.vectorizer.vocabulary_['hi']])"""
-        send = {'vocabulary':perp.vectorizer.vocabulary_,
-                'sentence':l}
-        return send
+                #print (perp.num_words)
+                #print (perp.counts[perp.vectorizer.vocabulary_['hi']])
+        average_of_dev= sum(list_of_dev)/len(list_of_dev)
+        high='High Deviation'
+        low='Low Deviation'
+        for key,val in result.items():
+                if (val[0]-average_of_dev) >= 0.5:
+                        result[key].append(high)
+                else:
+                        result[key].append(low)
+        print(result)
+RunThis("""In 1999, I was born in Tundla. Actually, Tundla is not only my city, it is my home. It is located in Firozabad District in Uttar Pradesh. Tundla is situated on NH2 which connects it to nearest major city of Agra, 24 km away, 17 km away from District Firozabad and 5 km away from Etmadpur. It also serves as a major railway junction in North Central Railway zone. Numerous trains ply from capital city New Delhi which is 210 km away. Tundla is very near to Taj Yamuna Expressway. Tundla is well connected to other major cities of the country via regular trains. Due to proximity to Agra and hence the borders of Uttar Pradesh with Rajasthan, Madhya Pradesh states several inter-state bus services also serve the city. Intra-city transport typically consists of Rickshaws and 3-wheelers. It is a town in tundla tahsil of Firozabad district, Uttar Pradesh. In 1901 the population of Tundla was 3044. It was a major junction on the East Indian Railway. Tundla has a rich heritage of British rule. High walled British constructions, huge barracks, a Catholic church built in 1887, an old Jain temple, Kothis (Bungalows) of officers surrounded by sprawling lawns adorn Tundla as the main center of British administration. These old and beautiful British buildings have now been converted into railway quarters.""")

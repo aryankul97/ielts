@@ -6,7 +6,7 @@ from django.http import HttpResponse
 import csv
 import time
 from app.grading import *
-from app.perplexity import *
+from app.repititions import *
 
 def start(request):
 	name=request.session['name']
@@ -73,9 +73,19 @@ def checkcohession(request):
 	if request.method=="POST":
 		topic=request.POST.get('Topic')
 		text=request.POST.get('text')
-		data=checkperplexity(text)
-		vocab=data['vocabulary']
-		sentence=data['sentence']
+		sent=sent_repitition(text[3:len(text)-4])
+		d=sent.values()
+		sent_rep_count=0
+		for x in d:
+			if x>1:
+				sent_rep_count=sent_rep_count+1
+		phrase=phrase_rep(text[3:len(text)-4])
+		d=phrase.values()
+		phrase_rep_count=0
+		for x in d:
+			if x>1:
+				phrase_rep_count=phrase_rep_count+1
+		syn_count=check_relevance(text[3:len(text)-4])
 		b1=''
 		b2=''
 		b3=''
@@ -93,12 +103,9 @@ def checkcohession(request):
 				b3=elt.code
 				break
 		table=''
-		for x in vocab:
-			data=b1+x+b2+str(vocab[x])+b3
-			table=table+data
+		table=b1+str(sent_rep_count)+b2+str(phrase_rep_count)+b2+str(syn_count)+b3
 		context = {
 					'data':table,
-					'sentence':'Number of Sentences '+str(sentence),
 					'topic':topic
 		}
 		return render(request, 'CheckCohession.html',context)
