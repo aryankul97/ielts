@@ -6,8 +6,10 @@ from django.http import HttpResponse
 import csv
 import time
 from app.grading import *
-from app.repititions import *
+from app.maketable import *
 
+def adminpage(request):
+	return render(request,'admin.html',{})
 def start(request):
 	name=request.session['name']
 	t=time.time()
@@ -73,19 +75,12 @@ def checkcohession(request):
 	if request.method=="POST":
 		topic=request.POST.get('Topic')
 		text=request.POST.get('text')
-		sent=sent_repitition(text[3:len(text)-4])
-		d=sent.values()
-		sent_rep_count=0
-		for x in d:
-			if x>1:
-				sent_rep_count=sent_rep_count+1
-		phrase=phrase_rep(text[3:len(text)-4])
-		d=phrase.values()
-		phrase_rep_count=0
-		for x in d:
-			if x>1:
-				phrase_rep_count=phrase_rep_count+1
-		syn_count=check_relevance(text[3:len(text)-4])
+		result=check_cohession(text[3:len(text)-4],topic)
+		p_rep=str(result['Phrase repitions'])
+		s_rep=str(result['Sentence repitions'])
+		preplex_score=str(result['Preplexity score'])
+		relevance=str(result['RElevance Score'])
+		para=str(result['Paragraphs'])
 		b1=''
 		b2=''
 		b3=''
@@ -103,7 +98,7 @@ def checkcohession(request):
 				b3=elt.code
 				break
 		table=''
-		table=b1+str(sent_rep_count)+b2+str(phrase_rep_count)+b2+str(syn_count)+b3
+		table=b1+p_rep+b2+s_rep+b2+preplex_score+b2+relevance+b2+para+b3
 		context = {
 					'data':table,
 					'topic':topic

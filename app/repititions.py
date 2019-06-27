@@ -5,7 +5,11 @@ import sys
 import csv
 import nltk
 from nltk.corpus import wordnet
-def sent_repitition(t):
+from itertools import groupby
+
+
+def sent_repitition (t):
+    t=t.upper()
     sentence=sent_tokenize(t)
     dict={}
     count=0
@@ -14,35 +18,53 @@ def sent_repitition(t):
             dict[sent]=1
         else:
             dict[sent]+=1
+    for key, value in dict.items():
+        if value>1:
+            count+=1
+    
+    return count
 
-    #print(dict)
-    return dict
+def paragraph(lines):
+    para=lines.split("\n")
+    no_of_para=len(para)
+    #print(para,no_of_para)
+    if no_of_para>4:
+        flag=0
+    else:
+        flag=1
+    return flag
+
 
 def phrase_rep(t):
     s=''
+    t=t.upper()
     text = word_tokenize(t)
     num_tokens = len(text)
     dict={}
     count=0
-    for j in 0,num_tokens-3:
-        for i in j,j+2:
+    for j in range(0,num_tokens-3):
+        s=''
+        for i in range(j,j+2):
             s=s+text[i]
         if s not in dict:
             dict[s]=1
         else:
             dict[s]+=1
-            
-    for key in dict:
-        if dict[key]>4:
-            count+=dict[key]%4
-    
-    #print(dict)
-    return dict
-def check_relevance(t):
 
+    for key,value in dict.items():
+        if len(key)>3 and value>3:
+            count+=1
+            
+    return count
+
+   
+def check_relevance(t,title):
+    t=t.upper()
+    title=title.upper()
     text = word_tokenize(t)
     num_tokens = len(text)
     dict={}
+        
     for i in text:
         if i not in dict:
             dict[i]=1
@@ -57,6 +79,12 @@ def check_relevance(t):
     sorted(dict.items(), key=lambda x: x[1], reverse=True)
     #print(dict)
     p=0
+    l=0
+    title_word=word_tokenize(title)
+    for i in title_word:
+        l+=1
+        imp_word.append(i)
+        
     for key in dict:
         if p==10:
             break
@@ -64,19 +92,27 @@ def check_relevance(t):
             imp_word.append(key)
             p+=1
             
-
+    
     #print(imp_word)
     synonyms = [] 
     antonyms = [] 
-    for i in range (1,10):
+    for i in range (1,10+l):
         for syn in wordnet.synsets(imp_word[i]): 
             for l in syn.lemmas(): 
                 synonyms.append(l.name()) 
                 if l.antonyms(): 
                     antonyms.append(l.antonyms()[0].name()) 
       
-    #print(set(synonyms)) 
-    #print(set(antonyms))
+    len_of_synonyms=len(synonyms)
+    len_of_antonyms=len(antonyms)
+    for i in range(0,len_of_synonyms):
+        synonyms[i]=synonyms[i].upper()
+        
+    for i in range(0,len_of_antonyms):
+        antonyms[i]=antonyms[i].upper()
+    #print(synonyms)
+    #print(antonyms)
+    
     count=0
 
     for i in synonyms:
@@ -85,5 +121,6 @@ def check_relevance(t):
                 count+=1
                 #print(key,i)
     #print(count)
-    return count  # the number of synonyms used in the essay(proper relevant words used)
-phrase_rep("""In 1999, I was born in Tundla. Actually, Tundla is not only my city, it is my home. It is located in Firozabad District in Uttar Pradesh. Tundla is situated on NH2 which connects it to nearest major city of Agra, 24 km away, 17 km away from District Firozabad and 5 km away from Etmadpur. It also serves as a major railway junction in North Central Railway zone. Numerous trains ply from capital city New Delhi which is 210 km away. Tundla is very near to Taj Yamuna Expressway. Tundla is well connected to other major cities of the country via regular trains. Due to proximity to Agra and hence the borders of Uttar Pradesh with Rajasthan, Madhya Pradesh states several inter-state bus services also serve the city. Intra-city transport typically consists of Rickshaws and 3-wheelers. It is a town in tundla tahsil of Firozabad district, Uttar Pradesh. In 1901 the population of Tundla was 3044. It was a major junction on the East Indian Railway. Tundla has a rich heritage of British rule. High walled British constructions, huge barracks, a Catholic church built in 1887, an old Jain temple, Kothis (Bungalows) of officers surrounded by sprawling lawns adorn Tundla as the main center of British administration. These old and beautiful British buildings have now been converted into railway quarters.""")
+    return count   # the number of synonyms used in the essay(proper relevant words used)
+
+

@@ -1,5 +1,5 @@
 import math
-import util
+import app.util
 import nltk
 from nltk import trigrams
 from nltk import bigrams
@@ -127,5 +127,21 @@ def RunThis(text):
                         result[key].append(high)
                 else:
                         result[key].append(low)
-        print(result)
-RunThis("""In 1999, I was born in Tundla. Actually, Tundla is not only my city, it is my home. It is located in Firozabad District in Uttar Pradesh. Tundla is situated on NH2 which connects it to nearest major city of Agra, 24 km away, 17 km away from District Firozabad and 5 km away from Etmadpur. It also serves as a major railway junction in North Central Railway zone. Numerous trains ply from capital city New Delhi which is 210 km away. Tundla is very near to Taj Yamuna Expressway. Tundla is well connected to other major cities of the country via regular trains. Due to proximity to Agra and hence the borders of Uttar Pradesh with Rajasthan, Madhya Pradesh states several inter-state bus services also serve the city. Intra-city transport typically consists of Rickshaws and 3-wheelers. It is a town in tundla tahsil of Firozabad district, Uttar Pradesh. In 1901 the population of Tundla was 3044. It was a major junction on the East Indian Railway. Tundla has a rich heritage of British rule. High walled British constructions, huge barracks, a Catholic church built in 1887, an old Jain temple, Kothis (Bungalows) of officers surrounded by sprawling lawns adorn Tundla as the main center of British administration. These old and beautiful British buildings have now been converted into railway quarters.""")
+        #print(result)
+        
+        return result                                                                 #return a dictionary
+
+
+
+def get_score(text):                                                    #returns the score
+        dict=RunThis(text)
+        count=0
+        flag=0                                                                  # 0 means PASS and 1 means FAIL
+        for key,value in dict.items():
+                if value[1]=='High Deviation':
+                        count+=1
+
+        if count>1:
+                flag=1
+
+        return flag
